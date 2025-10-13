@@ -1,193 +1,261 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="shortcut icon" href="./o-negocio.png" type="image/x-icon" />
-    <script
-      async
-      src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4349308178990727"
-      crossorigin="anonymous"
-    ></script>
-    <title>Cálculo do Número Mágico de FIIs</title>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Cálculo do Número Mágico de FIIs</title>
+  <style>
+    :root{
+      --bg1: #212226;
+      --bg2: #330202;
+      --card-bg: #fff;
+      --primary: #007bff;
+      --muted: #6c757d;
+      --radius: 12px;
+    }
 
-    <style>
-      body {
-        font-family: Arial, sans-serif;
-        background: linear-gradient(
-          90deg,
-          rgba(33, 34, 38, 1) 0%,
-          rgba(51, 2, 2, 1) 100%
-        );
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        min-height: 100vh;
-        margin: 0;
-        padding: 20px;
-      }
+    html,body{
+      height:100%;
+      margin:0;
+    }
 
-      .conatainer-group {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        width: 100%;
-        max-width: 480px;
-      }
+    body{
+      font-family: Arial, sans-serif;
+      background: linear-gradient(90deg, var(--bg1) 0%, var(--bg2) 100%);
+      display:flex;
+      justify-content:center;
+      align-items:flex-start; /* start to prevent keyboard hiding top on iOS */
+      padding:24px 12px;
+      box-sizing:border-box;
+    }
 
-      .container {
-        background: white;
-        padding: 25px 30px;
-        border-radius: 12px;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-        width: 100%;
-      }
+    .container-wrap{
+      width:100%;
+      max-width:420px;  /* slightly smaller for iPhone */
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+    }
 
-      h1 {
-        color: white;
-        margin-bottom: 20px;
-        text-align: center;
-        font-size: 1.6rem;
-      }
+    h1{
+      color:#fff;
+      margin:0 0 14px 0;
+      text-align:center;
+      font-size:1.5rem;
+    }
 
-      h2 {
-        text-align: center;
-        color: #333;
-        margin-bottom: 15px;
-      }
+    .card{
+      width:100%;
+      background:var(--card-bg);
+      border-radius:var(--radius);
+      padding:20px;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.2);
+      box-sizing:border-box;
+    }
 
-      label {
-        display: block;
-        font-weight: bold;
-        margin-top: 10px;
-      }
+    .card h2{
+      margin:0 0 10px 0;
+      text-align:center;
+      color:#222;
+      font-size:1.15rem;
+    }
 
-      input {
-        width: 100%;
-        padding: 10px;
-        margin-top: 6px;
-        border-radius: 6px;
-        border: 1px solid #ccc;
-        font-size: 1rem;
-      }
+    label{
+      display:block;
+      font-weight:700;
+      margin-top:12px;
+      color:#222;
+    }
 
-      .button-group {
-        display: flex;
-        justify-content: space-between;
-        flex-wrap: wrap;
-        margin-top: 15px;
-        gap: 10px;
-      }
+    input[type="text"]{
+      width:100%;
+      padding:10px 12px;
+      margin-top:6px;
+      border-radius:8px;
+      border:1px solid #ccc;
+      font-size:1rem;
+      box-sizing:border-box;
+    }
 
-      button {
-        flex: 1;
-        padding: 12px;
-        border: none;
-        border-radius: 6px;
-        background: #007bff;
-        color: white;
-        font-size: 16px;
-        cursor: pointer;
-        transition: background 0.3s;
-      }
+    .button-group{
+      display:flex;
+      gap:10px;
+      margin-top:14px;
+      flex-wrap:wrap;
+    }
 
-      button:hover {
-        background: #0056b3;
-      }
+    .btn{
+      flex:1 1 45%;
+      padding:12px;
+      border-radius:8px;
+      border:none;
+      font-size:16px;
+      cursor:pointer;
+    }
 
-      .result {
-        margin-top: 20px;
-        font-weight: bold;
-        text-align: center;
-        color: #333;
-        word-break: break-word;
-      }
+    .btn-primary{
+      background:var(--primary);
+      color:#fff;
+    }
 
-      @media (max-width: 480px) {
-        h1 {
-          font-size: 1.3rem;
-        }
-        .container {
-          padding: 20px;
-        }
-        button {
-          font-size: 15px;
-        }
-      }
-    </style>
-  </head>
+    .btn-muted{
+      background:var(--muted);
+      color:#fff;
+    }
 
-  <body>
-    <div class="conatainer-group">
-      <h1>Calcule seu número mágico para FIIs 💵</h1>
+    .result{
+      margin-top:16px;
+      text-align:center;
+      font-weight:700;
+      color:#222;
+      word-break:break-word;
+      min-height:1.4em;
+    }
 
-      <div class="container">
-        <h2>Cálculo do Número Mágico</h2>
+    .warning{
+      color:#b45309;
+    }
 
-        <label for="preco">💰 Preço da cota (R$):</label>
-        <input
-          type="number"
-          id="preco"
-          placeholder="Ex: 9.60"
-          step="0.01"
-          inputmode="decimal"
-        />
+    /* small screens adjustments */
+    @media (max-width:360px){
+      .card{ padding:16px; }
+      h1{ font-size:1.2rem; }
+      .btn{ font-size:15px; padding:10px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container-wrap">
+    <h1>Cálculo do Número Mágico</h1>
 
-        <label for="dyAnual">📈 DY anual (%):</label>
-        <input
-          type="number"
-          id="dyAnual"
-          placeholder="Ex: 11.42"
-          step="0.01"
-          inputmode="decimal"
-        />
+    <div class="card" role="region" aria-label="calculadora número mágico">
+      <h2>Insira os valores</h2>
 
-        <div class="button-group">
-          <button onclick="calcularNumeroMagico()">Calcular</button>
-          <button onclick="limparCampos()" style="background:#6c757d;">
-            Limpar
-          </button>
-        </div>
+      <label for="preco">💰 Preço da cota (R$):</label>
+      <!-- type=text + inputmode=decimal é a melhor compatibilidade móvel -->
+      <input id="preco" type="text" inputmode="decimal" autocomplete="off" placeholder="Ex: 9,60 ou 9.60" />
 
-        <div class="result" id="resultado"></div>
+      <label for="dyAnual">📈 DY anual (%):</label>
+      <input id="dyAnual" type="text" inputmode="decimal" autocomplete="off" placeholder="Ex: 11,42 ou 11.42" />
+
+      <div class="button-group">
+        <button class="btn btn-primary" id="btnCalc" type="button">Calcular</button>
+        <button class="btn btn-muted" id="btnClear" type="button">Limpar</button>
       </div>
+
+      <div id="resultado" class="result" aria-live="polite"></div>
     </div>
+  </div>
 
-    <script>
-      function calcularNumeroMagico() {
-        let preco = document.getElementById("preco").value.replace(",", ".");
-        let dyAnual = document.getElementById("dyAnual").value.replace(",", ".");
+  <script>
+    // Normaliza string numérica: aceita vírgula ou ponto, permite apenas um separador decimal.
+    function normalizeNumericString(raw) {
+      if (typeof raw !== 'string') return '';
+      let s = raw.trim();
 
-        preco = parseFloat(preco);
-        dyAnual = parseFloat(dyAnual) / 100;
+      // substituir vírgula por ponto
+      s = s.replace(/,/g, '.');
 
-        if (isNaN(preco) || isNaN(dyAnual) || preco <= 0 || dyAnual <= 0) {
-          document.getElementById("resultado").textContent =
-            "⚠️ Digite valores válidos!";
-          return;
+      // remover qualquer caractere que não seja dígito, ponto ou sinal negativo
+      s = s.replace(/[^\d\.\-]/g, '');
+
+      // remover segundos/triples pontos: manter apenas o primeiro ponto
+      const parts = s.split('.');
+      if (parts.length > 1) {
+        s = parts.shift() + '.' + parts.join('');
+      }
+
+      // permitir apenas um leading '-' se houver e movê-lo para o início
+      const neg = s.includes('-');
+      s = s.replace(/-/g, '');
+      if (neg) s = '-' + s;
+
+      return s;
+    }
+
+    // pega valor do input, normaliza e converte para float
+    function getNumericValue(inputEl) {
+      const raw = inputEl.value || '';
+      const norm = normalizeNumericString(raw);
+      // atualizar visualmente o campo com versão "limpa"? Não sobrescreve enquanto usuário digita
+      // parseFloat retorna NaN caso inválido
+      return { norm, value: parseFloat(norm) };
+    }
+
+    // formata o valor em moeda pt-BR
+    function formatBRL(num) {
+      return num.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+    }
+
+    const precoEl = document.getElementById('preco');
+    const dyEl = document.getElementById('dyAnual');
+    const resEl = document.getElementById('resultado');
+    const btnCalc = document.getElementById('btnCalc');
+    const btnClear = document.getElementById('btnClear');
+
+    // adiciona oninput para permitir limpeza em tempo real (opcional)
+    precoEl.addEventListener('input', () => {
+      // opcional: mostrar nada — mas manter valor do usuário para edição
+    });
+    dyEl.addEventListener('input', () => {});
+
+    btnCalc.addEventListener('click', () => {
+      resEl.classList.remove('warning');
+      resEl.textContent = '';
+
+      const { norm: precoNorm, value: preco } = getNumericValue(precoEl);
+      const { norm: dyNorm, value: dyRaw } = getNumericValue(dyEl);
+      // dyRaw é percentual (ex: 11.42) -> converter para decimal
+      const dyAnual = isNaN(dyRaw) ? NaN : dyRaw / 100;
+
+      // validação
+      if (isNaN(preco) || isNaN(dyAnual) || preco <= 0 || dyAnual <= 0) {
+        resEl.classList.add('warning');
+        resEl.textContent = '⚠️ Digite valores válidos!';
+        return;
+      }
+
+      const dyMensal = dyAnual / 12;
+      const dividendoMensal = preco * dyMensal;
+
+      if (dividendoMensal === 0) {
+        resEl.classList.add('warning');
+        resEl.textContent = '⚠️ Dividendo mensal inválido (zero).';
+        return;
+      }
+
+      const numeroMagico = preco / dividendoMensal;
+      // aqui você pediu Math.round — arredonda para inteiro mais próximo
+      const numeroMagicoInteiro = Math.round(numeroMagico);
+      // se preferir sempre garantir cobertura (nunca ficar abaixo), use Math.ceil
+      // const numeroMagicoInteiro = Math.ceil(numeroMagico);
+
+      const valorTotal = numeroMagicoInteiro * preco;
+      const valorFormatado = formatBRL(valorTotal);
+
+      resEl.classList.remove('warning');
+      resEl.innerHTML =
+        `📊 Número Mágico: <b>${numeroMagicoInteiro} cotas</b><br>` +
+        `💵 Valor Total necessário: <b>${valorFormatado}</b>`;
+    });
+
+    btnClear.addEventListener('click', () => {
+      precoEl.value = '';
+      dyEl.value = '';
+      resEl.textContent = '';
+      resEl.classList.remove('warning');
+      precoEl.focus();
+    });
+
+    // permitir Enter para calcular
+    [precoEl, dyEl].forEach(el => {
+      el.addEventListener('keydown', (ev) => {
+        if (ev.key === 'Enter') {
+          ev.preventDefault();
+          btnCalc.click();
         }
-
-        const dyMensal = dyAnual / 12;
-        const dividendoMensal = preco * dyMensal;
-        const numeroMagico = preco / dividendoMensal;
-        const numeroMagicoInteiro = Math.round(numeroMagico);
-        const valorTotal = numeroMagicoInteiro * preco;
-
-        const valorFormatado = valorTotal.toLocaleString("pt-BR", {
-          style: "currency",
-          currency: "BRL",
-        });
-
-        document.getElementById("resultado").innerHTML =
-          `📊 Número Mágico: <b>${numeroMagicoInteiro} cotas</b><br>` +
-          `💵 Valor Total necessário: <b>${valorFormatado}</b>`;
-      }
-
-      function limparCampos() {
-        document.getElementById("preco").value = "";
-        document.getElementById("dyAnual").value = "";
-        document.getElementById("resultado").textContent = "";
-      }
-    </script>
-  </body>
+      });
+    });
+  </script>
+</body>
 </html>
