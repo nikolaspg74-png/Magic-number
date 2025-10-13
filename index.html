@@ -2,88 +2,151 @@
 <html lang="pt-BR">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="shortcut icon" href="./o-negocio.png" type="image/x-icon" />
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4349308178990727"
-     crossorigin="anonymous"></script>
+    <script
+      async
+      src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4349308178990727"
+      crossorigin="anonymous"
+    ></script>
     <title>Cálculo do Número Mágico de FIIs</title>
+
     <style>
       body {
         font-family: Arial, sans-serif;
-        background: #212226;
-background: linear-gradient(90deg,rgba(33, 34, 38, 1) 0%, rgba(51, 2, 2, 1) 100%, rgba(38, 38, 19, 1) 43%);
+        background: linear-gradient(
+          90deg,
+          rgba(33, 34, 38, 1) 0%,
+          rgba(51, 2, 2, 1) 100%
+        );
         display: flex;
         justify-content: center;
         align-items: center;
-        height: 100vh;
+        min-height: 100vh;
+        margin: 0;
+        padding: 20px;
       }
+
       .conatainer-group {
         display: flex;
         flex-direction: column;
         align-items: center;
-        justify-content: center;
+        width: 100%;
+        max-width: 480px;
       }
+
       .container {
         background: white;
-        padding: 20px 30px;
-        border-radius: 10px;
+        padding: 25px 30px;
+        border-radius: 12px;
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-        max-width: 400px;
         width: 100%;
       }
-      h1{
+
+      h1 {
         color: white;
         margin-bottom: 20px;
         text-align: center;
+        font-size: 1.6rem;
       }
+
+      h2 {
+        text-align: center;
+        color: #333;
+        margin-bottom: 15px;
+      }
+
+      label {
+        display: block;
+        font-weight: bold;
+        margin-top: 10px;
+      }
+
       input {
         width: 100%;
         padding: 10px;
-        margin: 10px 0;
-        border-radius: 5px;
+        margin-top: 6px;
+        border-radius: 6px;
         border: 1px solid #ccc;
+        font-size: 1rem;
       }
+
+      .button-group {
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        margin-top: 15px;
+        gap: 10px;
+      }
+
       button {
-        width: 48%;
-        padding: 10px;
+        flex: 1;
+        padding: 12px;
         border: none;
-        border-radius: 5px;
+        border-radius: 6px;
         background: #007bff;
         color: white;
         font-size: 16px;
         cursor: pointer;
-        margin-top: 10px;
+        transition: background 0.3s;
       }
+
       button:hover {
         background: #0056b3;
       }
-      .button-group {
-        display: flex;
-        justify-content: space-between;
-      }
+
       .result {
         margin-top: 20px;
         font-weight: bold;
         text-align: center;
+        color: #333;
+        word-break: break-word;
+      }
+
+      @media (max-width: 480px) {
+        h1 {
+          font-size: 1.3rem;
+        }
+        .container {
+          padding: 20px;
+        }
+        button {
+          font-size: 15px;
+        }
       }
     </style>
   </head>
+
   <body>
     <div class="conatainer-group">
-      <h1>Calcule seu número mágico para FIIS 💵</h1>
+      <h1>Calcule seu número mágico para FIIs 💵</h1>
 
       <div class="container">
         <h2>Cálculo do Número Mágico</h2>
 
-        <label for="preco">Preço da cota (R$):</label>
-        <input type="number" id="preco" placeholder="Ex: 9.60" step="0.01" />
+        <label for="preco">💰 Preço da cota (R$):</label>
+        <input
+          type="number"
+          id="preco"
+          placeholder="Ex: 9.60"
+          step="0.01"
+          inputmode="decimal"
+        />
 
-        <label for="dyAnual">DY anual (%):</label>
-        <input type="number" id="dyAnual" placeholder="Ex: 11.42" step="0.01" />
+        <label for="dyAnual">📈 DY anual (%):</label>
+        <input
+          type="number"
+          id="dyAnual"
+          placeholder="Ex: 11.42"
+          step="0.01"
+          inputmode="decimal"
+        />
 
         <div class="button-group">
           <button onclick="calcularNumeroMagico()">Calcular</button>
-          <button onclick="limparCampos()">Limpar</button>
+          <button onclick="limparCampos()" style="background:#6c757d;">
+            Limpar
+          </button>
         </div>
 
         <div class="result" id="resultado"></div>
@@ -92,26 +155,32 @@ background: linear-gradient(90deg,rgba(33, 34, 38, 1) 0%, rgba(51, 2, 2, 1) 100%
 
     <script>
       function calcularNumeroMagico() {
-        const preco = parseFloat(document.getElementById("preco").value);
-        const dyAnual =
-          parseFloat(document.getElementById("dyAnual").value) / 100;
+        let preco = document.getElementById("preco").value.replace(",", ".");
+        let dyAnual = document.getElementById("dyAnual").value.replace(",", ".");
+
+        preco = parseFloat(preco);
+        dyAnual = parseFloat(dyAnual) / 100;
 
         if (isNaN(preco) || isNaN(dyAnual) || preco <= 0 || dyAnual <= 0) {
           document.getElementById("resultado").textContent =
-            "Digite valores válidos!";
+            "⚠️ Digite valores válidos!";
           return;
         }
 
-        // Converter DY anual para mensal (aproximação simples)
         const dyMensal = dyAnual / 12;
-
         const dividendoMensal = preco * dyMensal;
         const numeroMagico = preco / dividendoMensal;
-        const valorTotal = numeroMagico * preco;
+        const numeroMagicoInteiro = Math.round(numeroMagico);
+        const valorTotal = numeroMagicoInteiro * preco;
+
+        const valorFormatado = valorTotal.toLocaleString("pt-BR", {
+          style: "currency",
+          currency: "BRL",
+        });
 
         document.getElementById("resultado").innerHTML =
-          `Número Mágico: <b>${numeroMagico.toFixed(1)} cotas</b><br>` +
-          `Valor Total necessário: <b>R$ ${valorTotal.toFixed(2)}</b>`;
+          `📊 Número Mágico: <b>${numeroMagicoInteiro} cotas</b><br>` +
+          `💵 Valor Total necessário: <b>${valorFormatado}</b>`;
       }
 
       function limparCampos() {
