@@ -8,8 +8,8 @@
   <style>
     :root {
       --primary: #007bff;
-      --secondary: #425a4e;
-      --bg: #252a2f;
+      --secondary: #6c757d;
+      --bg: #f8f9fa;
       --text: #333;
       --radius: 12px;
     }
@@ -20,7 +20,7 @@
 
     body {
       font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-   background: #466946;
+     background: #210508;
 background: linear-gradient(nulldeg,rgba(70, 105, 70, 1) 0%, rgba(62, 84, 80, 1) 100%);
       color: var(--text);
       margin: 0;
@@ -129,6 +129,9 @@ background: linear-gradient(nulldeg,rgba(70, 105, 70, 1) 0%, rgba(62, 84, 80, 1)
     <label for="ultimoDividendo">💸<span>Último dividendo pago (R$):</span></label>
     <input type="text" id="ultimoDividendo" placeholder="Ex: 0,11" inputmode="decimal" />
 
+    <label for="rendaDesejada">🎯<span>Renda mensal desejada (R$):</span></label>
+    <input type="text" id="rendaDesejada" placeholder="Ex: 100,00" inputmode="decimal" />
+
     <div class="buttons">
       <button id="calcular" onclick="calcularNumeroMagico()">Calcular</button>
       <button id="limpar" onclick="limparCampos()">Limpar</button>
@@ -146,6 +149,7 @@ background: linear-gradient(nulldeg,rgba(70, 105, 70, 1) 0%, rgba(62, 84, 80, 1)
     function calcularNumeroMagico() {
       const precoCota = toNumber(document.getElementById("precoCota").value);
       const ultimoDividendo = toNumber(document.getElementById("ultimoDividendo").value);
+      const rendaDesejada = toNumber(document.getElementById("rendaDesejada").value);
       const alerta = document.getElementById("alerta");
       const resultado = document.getElementById("resultado");
 
@@ -160,15 +164,28 @@ background: linear-gradient(nulldeg,rgba(70, 105, 70, 1) 0%, rgba(62, 84, 80, 1)
       const numeroMagico = Math.ceil(precoCota / ultimoDividendo);
       const valorTotal = numeroMagico * precoCota;
 
-      resultado.innerHTML = `
+      let textoResultado = `
         ✨ Número Mágico: <strong>${numeroMagico.toLocaleString("pt-BR")}</strong><br>
         💵 Valor necessário: <strong>R$ ${valorTotal.toFixed(2).replace(".", ",")}</strong>
       `;
+
+      if (!isNaN(rendaDesejada) && rendaDesejada > 0) {
+        const cotasParaRenda = Math.ceil(rendaDesejada / ultimoDividendo);
+        const investimentoNecessario = cotasParaRenda * precoCota;
+        textoResultado += `
+          <br><br>🎯 Para ganhar <strong>R$ ${rendaDesejada.toFixed(2).replace(".", ",")}</strong> por mês:<br>
+          📊 Você precisa de <strong>${cotasParaRenda.toLocaleString("pt-BR")}</strong> cotas<br>
+          💰 Investimento: <strong>R$ ${investimentoNecessario.toFixed(2).replace(".", ",")}</strong>
+        `;
+      }
+
+      resultado.innerHTML = textoResultado;
     }
 
     function limparCampos() {
       document.getElementById("precoCota").value = "";
       document.getElementById("ultimoDividendo").value = "";
+      document.getElementById("rendaDesejada").value = "";
       document.getElementById("alerta").textContent = "";
       document.getElementById("resultado").textContent = "";
     }
