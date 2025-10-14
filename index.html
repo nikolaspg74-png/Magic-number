@@ -1,202 +1,190 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="shortcut icon" href="./o-negocio.png" type="image/x-icon" />
-    <script
-      async
-      custom-element="amp-auto-ads"
-      src="https://cdn.ampproject.org/v0/amp-auto-ads-0.1.js"
-    ></script>
-    <title>Cálculo do Número Mágico de FIIs</title>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cálculo do Número Mágico</title>
+  <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/3900/3900433.png" type="image/png" />
+  <style>
+    :root {
+      --primary: #007bff;
+      --secondary: #6c757d;
+      --bg: #f8f9fa;
+      --text: #333;
+      --radius: 12px;
+    }
 
-    <style>
-      * {
-        box-sizing: border-box;
-      }
+    * {
+      box-sizing: border-box;
+    }
 
-      body {
-        font-family: Arial, sans-serif;
-        background: linear-gradient(135deg, #212226, #330202);
-        margin: 0;
-        padding: 20px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        min-height: 100vh;
-      }
+    body {
+      font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      margin: 0;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+    }
 
-      .container-group {
-        width: 100%;
-        max-width: 420px;
-        text-align: center;
-      }
+    .container {
+      background: #fff;
+      width: 90%;
+      max-width: 420px;
+      border-radius: var(--radius);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      padding: 24px;
+      text-align: center;
+    }
 
+    h1 {
+      font-size: 1.5rem;
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: flex;
+      align-items: center;
+      font-weight: 600;
+      margin: 10px 0 6px;
+    }
+
+    label span {
+      margin-left: 6px;
+    }
+
+    input {
+      width: 100%;
+      padding: 10px;
+      border-radius: var(--radius);
+      border: 1px solid #ccc;
+      font-size: 1rem;
+      text-align: center;
+    }
+
+    .buttons {
+      display: flex;
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    button {
+      flex: 1;
+      padding: 10px;
+      border-radius: var(--radius);
+      font-size: 1rem;
+      border: none;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      color: #fff;
+    }
+
+    button#calcular {
+      background: var(--primary);
+    }
+
+    button#limpar {
+      background: var(--secondary);
+    }
+
+    button:hover {
+      opacity: 0.9;
+    }
+
+    .result {
+      margin-top: 20px;
+      font-size: 1.1rem;
+      font-weight: bold;
+    }
+
+    .alerta {
+      color: #d9534f;
+      margin-top: 12px;
+      font-size: 0.9rem;
+    }
+
+    @media (max-width: 400px) {
       h1 {
-        color: white;
-        margin-bottom: 20px;
-        font-size: 1.5rem;
-      }
-
-      .container {
-        background: #ffffff;
-        padding: 25px 30px;
-        border-radius: 12px;
-        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
-        width: 100%;
-      }
-
-      label {
-        display: block;
-        text-align: left;
-        font-weight: bold;
-        margin-top: 10px;
-        color: #333;
+        font-size: 1.2rem;
       }
 
       input {
-        width: 100%;
-        padding: 12px;
-        margin-top: 5px;
-        border-radius: 8px;
-        border: 1px solid #ccc;
-        font-size: 16px;
+        font-size: 0.95rem;
       }
+    }
+  </style>
+</head>
 
-      .button-group {
-        display: flex;
-        justify-content: space-between;
-        gap: 10px;
-        margin-top: 15px;
-      }
+<body>
+  <div class="container">
+    <h1>📈 Cálculo do Número Mágico</h1>
 
-      button {
-        flex: 1;
-        padding: 12px;
-        border: none;
-        border-radius: 8px;
-        color: white;
-        font-size: 16px;
-        cursor: pointer;
-        transition: background 0.3s;
-      }
+    <label for="precoCota">💰<span>Preço da cota (R$):</span></label>
+    <input type="text" id="precoCota" placeholder="Ex: 9,60" inputmode="decimal" />
 
-      button:first-child {
-        background: #007bff;
-      }
+    <label for="ultimoDividendo">💸<span>Último dividendo pago (R$):</span></label>
+    <input type="text" id="ultimoDividendo" placeholder="Ex: 0,11" inputmode="decimal" />
 
-      button:first-child:hover {
-        background: #0056b3;
-      }
-
-      button:last-child {
-        background: #6c757d;
-      }
-
-      button:last-child:hover {
-        background: #555;
-      }
-
-      .result {
-        margin-top: 20px;
-        font-size: 1.1rem;
-        font-weight: bold;
-        text-align: center;
-        color: #333;
-      }
-
-      @media (max-width: 480px) {
-        h1 {
-          font-size: 1.3rem;
-        }
-
-        .container {
-          padding: 20px;
-        }
-
-        button {
-          font-size: 14px;
-        }
-      }
-    </style>
-  </head>
-  <body>
-    <div class="container-group">
-      <h1>Calcule seu número mágico para FIIs 💵</h1>
-
-      <div class="container">
-        <h2>📊 Cálculo do Número Mágico</h2>
-
-        <label for="preco">💰 Preço da cota (R$):</label>
-        <input
-          type="text"
-          id="preco"
-          inputmode="decimal"
-          placeholder="Ex: 9,60"
-        />
-
-        <label for="dividendo">💸 Último dividendo pago (R$):</label>
-        <input
-          type="text"
-          id="dividendo"
-          inputmode="decimal"
-          placeholder="Ex: 0,10"
-        />
-
-        <div class="button-group">
-          <button onclick="calcularNumeroMagico()">Calcular</button>
-          <button onclick="limparCampos()">Limpar</button>
-        </div>
-
-        <div class="result" id="resultado"></div>
-      </div>
+    <div class="buttons">
+      <button id="calcular" onclick="calcularNumeroMagico()">Calcular</button>
+      <button id="limpar" onclick="limparCampos()">Limpar</button>
     </div>
 
-    <script>
-      function calcularNumeroMagico() {
-        // Captura os valores e trata vírgula como ponto
-        let preco = document.getElementById("preco").value.replace(",", ".");
-        let dividendo = document
-          .getElementById("dividendo")
-          .value.replace(",", ".");
+    <div class="alerta" id="alerta"></div>
+    <div class="result" id="resultado"></div>
+  </div>
 
-        preco = parseFloat(preco);
-        dividendo = parseFloat(dividendo);
+  <script>
+    function toNumber(valor) {
+      return parseFloat(valor.replace(",", "."));
+    }
 
-        if (isNaN(preco) || isNaN(dividendo) || preco <= 0 || dividendo <= 0) {
-          document.getElementById("resultado").innerHTML =
-            "⚠️ Digite valores válidos!";
-          return;
-        }
+    function calcularNumeroMagico() {
+      const precoCota = toNumber(document.getElementById("precoCota").value);
+      const ultimoDividendo = toNumber(document.getElementById("ultimoDividendo").value);
+      const alerta = document.getElementById("alerta");
+      const resultado = document.getElementById("resultado");
 
-        const numeroMagico = Math.ceil(preco / dividendo);
-        const valorTotal = numeroMagico * preco;
+      alerta.textContent = "";
+      resultado.textContent = "";
 
-        document.getElementById("resultado").innerHTML =
-          `📈 Número Mágico: <b>${numeroMagico} cotas</b><br>` +
-          `💰 Valor Total necessário: <b>R$ ${valorTotal.toFixed(2)}</b>`;
+      if (isNaN(precoCota) || isNaN(ultimoDividendo) || precoCota <= 0 || ultimoDividendo <= 0) {
+        alerta.textContent = "⚠️ Digite valores válidos!";
+        return;
       }
 
-      function limparCampos() {
-        document.getElementById("preco").value = "";
-        document.getElementById("dividendo").value = "";
-        document.getElementById("resultado").textContent = "";
-      }
-    </script>
-  </body>
-  <amp-auto-ads type="adsense"
-        data-ad-client="ca-pub-4349308178990727">
-</amp-auto-ads>
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4349308178990727"
-     crossorigin="anonymous"></script>
-<ins class="adsbygoogle"
-     style="display:block"
-     data-ad-format="fluid"
-     data-ad-layout-key="-fb+5w+4e-db+86"
-     data-ad-client="ca-pub-4349308178990727"
-     data-ad-slot="7376795351"></ins>
-<script>
-     (adsbygoogle = window.adsbygoogle || []).push({});
-</script>
+      const numeroMagico = Math.ceil(precoCota / ultimoDividendo);
+      const valorTotal = numeroMagico * precoCota;
+
+      resultado.innerHTML = `
+        ✨ Número Mágico: <strong>${numeroMagico.toLocaleString("pt-BR")}</strong><br>
+        💵 Valor necessário: <strong>R$ ${valorTotal.toFixed(2).replace(".", ",")}</strong>
+      `;
+    }
+
+    function limparCampos() {
+      document.getElementById("precoCota").value = "";
+      document.getElementById("ultimoDividendo").value = "";
+      document.getElementById("alerta").textContent = "";
+      document.getElementById("resultado").textContent = "";
+    }
+  </script>
+
+  <!-- BLOCO DO GOOGLE ADSENSE -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4349308178990727"
+    crossorigin="anonymous"></script>
+  <ins class="adsbygoogle"
+    style="display:block"
+    data-ad-client="ca-pub-4349308178990727"
+    data-ad-slot="7376795351"
+    data-ad-format="auto"
+    data-full-width-responsive="true"></ins>
+  <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+  </script>
+
+</body>
 </html>
