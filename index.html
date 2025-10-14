@@ -4,6 +4,11 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="shortcut icon" href="./o-negocio.png" type="image/x-icon" />
+    <script
+      async
+      custom-element="amp-auto-ads"
+      src="https://cdn.ampproject.org/v0/amp-auto-ads-0.1.js"
+    ></script>
     <title>Cálculo do Número Mágico de FIIs</title>
 
     <style>
@@ -152,7 +157,9 @@
       function calcularNumeroMagico() {
         // Captura os valores e trata vírgula como ponto
         let preco = document.getElementById("preco").value.replace(",", ".");
-        let dividendo = document.getElementById("dividendo").value.replace(",", ".");
+        let dividendo = document
+          .getElementById("dividendo")
+          .value.replace(",", ".");
 
         preco = parseFloat(preco);
         dividendo = parseFloat(dividendo);
@@ -178,4 +185,7 @@
       }
     </script>
   </body>
+  <amp-auto-ads type="adsense"
+        data-ad-client="ca-pub-4349308178990727">
+</amp-auto-ads>
 </html>
