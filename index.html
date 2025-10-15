@@ -3,146 +3,206 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Cálculo do Número Mágico de FIIs</title>
+  <title>Cálculo do Número Mágico</title>
+  <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/3900/3900433.png" type="image/png" />
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: linear-gradient(135deg, #212226, #330202);
-      margin: 0;
-      padding: 20px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
+    :root {
+      --primary: #007bff;
+      --secondary: #6c757d;
+      --bg: #f8f9fa;
+      --text: #333;
+      --radius: 12px;
     }
-    .container {
-      background: #fff;
-      padding: 25px 30px;
-      border-radius: 12px;
-      box-shadow: 0 6px 16px rgba(0,0,0,0.2);
-      width: 100%;
-      max-width: 420px;
+
+    * {
       box-sizing: border-box;
     }
-    h1 {
-      color: rgb(2, 2, 2);
+
+    body {
+      font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background: #050a05;
+background: linear-gradient(nulldeg, rgba(5, 10, 5, 1) 0%, rgba(62, 84, 80, 1) 100%);
+      color: var(--text);
+      margin: 0;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+    }
+
+    .container {
+      background: #fff;
+      width: 90%;
+      max-width: 420px;
+      border-radius: var(--radius);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      padding: 24px;
       text-align: center;
+    }
+
+    h1 {
+      font-size: 1.5rem;
       margin-bottom: 20px;
     }
+
     label {
-      display: block;
-      margin-top: 10px;
-      font-weight: bold;
-      color: #333;
+      display: flex;
+      align-items: center;
+      font-weight: 600;
+      margin: 10px 0 6px;
     }
+
+    label span {
+      margin-left: 6px;
+    }
+
     input {
       width: 100%;
       padding: 10px;
-      margin-top: 5px;
-      border-radius: 8px;
+      border-radius: var(--radius);
       border: 1px solid #ccc;
-      font-size: 16px;
-      box-sizing: border-box;
+      font-size: 1rem;
+      text-align: center;
     }
-    .button-group {
+
+    .buttons {
       display: flex;
-      justify-content: space-between;
-      margin-top: 15px;
+      gap: 10px;
+      margin-top: 20px;
     }
+
     button {
       flex: 1;
       padding: 10px;
-      margin: 5px;
+      border-radius: var(--radius);
+      font-size: 1rem;
       border: none;
-      border-radius: 8px;
       cursor: pointer;
-      font-size: 16px;
+      transition: all 0.3s ease;
       color: #fff;
     }
-    button:first-child { background: #007bff; }
-    button:last-child { background: #6c757d; }
+
+    button#calcular {
+      background: var(--primary);
+    }
+
+    button#limpar {
+      background: var(--secondary);
+    }
+
+    button:hover {
+      opacity: 0.9;
+    }
+
     .result {
       margin-top: 20px;
       font-size: 1.1rem;
       font-weight: bold;
-      text-align: center;
-      color: #333;
+    }
+
+    .alerta {
+      color: #d9534f;
+      margin-top: 12px;
+      font-size: 0.9rem;
+    }
+
+    @media (max-width: 400px) {
+      h1 {
+        font-size: 1.2rem;
+      }
+
+      input {
+        font-size: 0.95rem;
+      }
     }
   </style>
 </head>
+
 <body>
   <div class="container">
-    <h1>Calcule seu número mágico 💵</h1>
+    <h1>📈 Cálculo do Número Mágico</h1>
 
-    <label for="fundo">🏢 Nome do Fundo (FII):</label>
-    <input type="text" id="fundo" placeholder="Ex: MXRF11" />
+    <label for="precoCota">💰<span>Preço da cota (R$):</span></label>
+    <input type="text" id="precoCota" placeholder="Ex: 9,60" inputmode="decimal" />
 
-    <label for="preco">💰 Preço da cota (R$):</label>
-    <input type="text" id="preco" inputmode="decimal" placeholder="Ex: 9,60" />
+    <label for="ultimoDividendo">💸<span>Último dividendo pago (R$):</span></label>
+    <input type="text" id="ultimoDividendo" placeholder="Ex: 0,11" inputmode="decimal" />
 
-    <label for="dividendo">💸 Último dividendo pago (R$):</label>
-    <input type="text" id="dividendo" inputmode="decimal" placeholder="Ex: 0,10" />
+    <label for="rendaDesejada">🎯<span>Renda mensal desejada (R$):</span></label>
+    <input type="text" id="rendaDesejada" placeholder="Ex: 100,00" inputmode="decimal" />
 
-    <div class="button-group">
-      <button onclick="calcularNumeroMagico()">Calcular</button>
-      <button onclick="limparCampos()">Limpar</button>
+    <div class="buttons">
+      <button id="calcular" onclick="calcularNumeroMagico()">Calcular</button>
+      <button id="limpar" onclick="limparCampos()">Limpar</button>
     </div>
 
+    <div class="alerta" id="alerta"></div>
     <div class="result" id="resultado"></div>
   </div>
 
   <script>
-    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbz1ZoEoCB1MqX2tkV389wPPV0wGDGohMQcLZYzyfAVvGIBP6OfYlrDzkBTdSuD0yXEo/exec";
-
     function toNumber(valor) {
-      return parseFloat(valor.replace(/,/g, "."));
+      return parseFloat(valor.replace(",", "."));
     }
 
-    async function calcularNumeroMagico() {
-      const fundo = document.getElementById("fundo").value.trim();
-      const preco = toNumber(document.getElementById("preco").value);
-      const dividendo = toNumber(document.getElementById("dividendo").value);
+    function calcularNumeroMagico() {
+      const precoCota = toNumber(document.getElementById("precoCota").value);
+      const ultimoDividendo = toNumber(document.getElementById("ultimoDividendo").value);
+      const rendaDesejada = toNumber(document.getElementById("rendaDesejada").value);
+      const alerta = document.getElementById("alerta");
+      const resultado = document.getElementById("resultado");
 
-      const resultadoEl = document.getElementById("resultado");
-      resultadoEl.textContent = "";
+      alerta.textContent = "";
+      resultado.textContent = "";
 
-      if (!fundo || isNaN(preco) || isNaN(dividendo) || preco <= 0 || dividendo <= 0) {
-        resultadoEl.textContent = "⚠️ Digite valores válidos!";
+      if (isNaN(precoCota) || isNaN(ultimoDividendo) || precoCota <= 0 || ultimoDividendo <= 0) {
+        alerta.textContent = "⚠️ Digite valores válidos!";
         return;
       }
 
-      const numeroMagico = Math.ceil(preco / dividendo);
-      const valorTotal = numeroMagico * preco;
+      const numeroMagico = Math.ceil(precoCota / ultimoDividendo);
+      const valorTotal = numeroMagico * precoCota;
 
-      resultadoEl.innerHTML =
-        `📈 Número Mágico: <b>${numeroMagico}</b> cotas<br>` +
-        `💰 Valor Total necessário: <b>R$ ${valorTotal.toFixed(2)}</b>`;
+      let textoResultado = `
+        ✨ Número Mágico: <strong>${numeroMagico.toLocaleString("pt-BR")} cotas</strong><br>
+        💵 Valor necessário: <strong>R$ ${valorTotal.toFixed(2).replace(".", ",")}</strong>
+      `;
 
-      try {
-        await fetch(SCRIPT_URL, {
-          method: "POST",
-          body: JSON.stringify({
-            fundo,
-            preco,
-            dividendo,
-            numeroMagico,
-            valorTotal
-          }),
-          headers: {
-            "Content-Type": "application/json"
-          }
-        });
-      } catch (err) {
-        console.error("Erro ao salvar na planilha:", err);
+      if (!isNaN(rendaDesejada) && rendaDesejada > 0) {
+        const cotasParaRenda = Math.ceil(rendaDesejada / ultimoDividendo);
+        const investimentoNecessario = cotasParaRenda * precoCota;
+        textoResultado += `
+          <br><br>🎯 Para ganhar <strong>R$ ${rendaDesejada.toFixed(2).replace(".", ",")}</strong> por mês:<br>
+          📊 Você precisa de <strong>${cotasParaRenda.toLocaleString("pt-BR")}</strong> cotas<br>
+          💰 Investimento: <strong>R$ ${investimentoNecessario.toFixed(2).replace(".", ",")}</strong>
+        `;
       }
+
+      resultado.innerHTML = textoResultado;
     }
 
     function limparCampos() {
-      document.getElementById("fundo").value = "";
-      document.getElementById("preco").value = "";
-      document.getElementById("dividendo").value = "";
+      document.getElementById("precoCota").value = "";
+      document.getElementById("ultimoDividendo").value = "";
+      document.getElementById("rendaDesejada").value = "";
+      document.getElementById("alerta").textContent = "";
       document.getElementById("resultado").textContent = "";
     }
   </script>
+
+  <!-- BLOCO DO GOOGLE ADSENSE -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4349308178990727"
+    crossorigin="anonymous"></script>
+  <ins class="adsbygoogle"
+    style="display:block"
+    data-ad-client="ca-pub-4349308178990727"
+    data-ad-slot="7376795351"
+    data-ad-format="auto"
+    data-full-width-responsive="true"></ins>
+  <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+  </script>
+
 </body>
 </html>
