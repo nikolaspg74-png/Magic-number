@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Histórico Número Mágico</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f3f4f6;
+      margin: 0;
+      padding: 20px;
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #333;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: white;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+    th, td {
+      padding: 12px 15px;
+      text-align: center;
+      border-bottom: 1px solid #ddd;
+    }
+    th {
+      background: #007bff;
+      color: white;
+    }
+    tr:hover {
+      background: #f1f1f1;
+    }
+    @media (max-width: 600px) {
+      th, td {
+        padding: 8px 10px;
+        font-size: 0.9rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <h1>📊 Histórico de Nºs Mágicos</h1>
+  <table id="tabela">
+    <thead>
+      <tr>
+        <th>Fundo</th>
+        <th>Preço da Cota</th>
+        <th>Dividendo</th>
+        <th>Nº Mágico</th>
+        <th>Valor Total</th>
+        <th>Data</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+
+  <script>
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbykhYcMNWf52SKs3Al6y0SFqXfBXWHnepIXPTZNUFhvNM9so_6JeTdHMWNUE5Ajs8lS/exec";
+
+
+    async function carregarDados() {
+      try {
+        const resp = await fetch(SCRIPT_URL);
+        const data = await resp.json();
+        const tbody = document.querySelector("#tabela tbody");
+        tbody.innerHTML = "";
+
+        data.reverse().forEach(row => {
+          const tr = document.createElement("tr");
+          tr.innerHTML = `
+            <td>${row["Fundo"] || ""}</td>
+            <td>R$ ${parseFloat(row["Preço da Cota"] || 0).toFixed(2)}</td>
+            <td>R$ ${parseFloat(row["Último Dividendo"] || 0).toFixed(2)}</td>
+            <td>${row["Número Mágico"]}</td>
+            <td>R$ ${parseFloat(row["Valor Total"] || 0).toFixed(2)}</td>
+            <td>${row["Data"] || ""}</td>
+          `;
+          tbody.appendChild(tr);
+        });
+      } catch (err) {
+        console.error("Erro ao carregar dados:", err);
+      }
+    }
+
+    carregarDados();
+  </script>
+</body>
+</html>
